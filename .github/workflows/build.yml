@@ -3,10 +3,9 @@ name: Build
 
 on:
   push:
-
-concurrency:
-  group: ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }}
-  cancel-in-progress: true
+    branches:
+      - master
+      - main
 
 jobs:
   build:
