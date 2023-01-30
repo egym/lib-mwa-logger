@@ -5,7 +5,7 @@ on:
   push:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }}
   cancel-in-progress: true
 
 jobs:
