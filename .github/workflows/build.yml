@@ -4,9 +4,9 @@ name: Build
 on:
   push:
     secrets:
-      GCP_ARTIFACT_REGISTRY_URL:
+      ARTIFACTORY_USERNAME:
         required: true
-      GCP_ARTIFACT_REGISTRY_SERVICE_ACCOUNT:
+      ARTIFACTORY_PASSWORD:
         required: true
 
 concurrency:
