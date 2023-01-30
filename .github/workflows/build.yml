@@ -3,11 +3,6 @@ name: Build
 
 on:
   push:
-    secrets:
-      ARTIFACTORY_USERNAME:
-        required: true
-      ARTIFACTORY_PASSWORD:
-        required: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
