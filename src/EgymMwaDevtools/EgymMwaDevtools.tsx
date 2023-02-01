@@ -1,6 +1,10 @@
 import React, { FC, useSyncExternalStore } from 'react';
 import { getSnapshot, subscribe } from '../messages';
 
+console.log('lib React', React);
+// @ts-ignore
+window.libReact = React;
+
 type Props = {
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 };
