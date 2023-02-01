@@ -1,6 +1,6 @@
 import React, { ErrorInfo, PropsWithChildren } from 'react';
 
-export class ErrorBoundary extends React.Component<PropsWithChildren> {
+export class ErrorBoundary extends React.Component<PropsWithChildren, { hasError: boolean, error: any, errorInfo: any }> {
   constructor(props: any) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
@@ -20,6 +20,10 @@ export class ErrorBoundary extends React.Component<PropsWithChildren> {
   }
 
   render() {
+    if (this.state.hasError) {
+      return <div>Error</div>
+    }
+
     return this.props.children;
   }
 }

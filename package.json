@@ -1,6 +1,6 @@
 {
   "name": "@egym/mwa-logger",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "author": "EGYM",
   "license": "ISC",
@@ -39,3 +39,4 @@
     "registry": "https://egym.jfrog.io/egym/api/npm/npm-local"
   }
 }
+
