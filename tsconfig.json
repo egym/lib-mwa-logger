@@ -103,7 +103,6 @@
     "module": "ESNext",
     "declaration": true,
     "declarationDir": "types",
-    "sourceMap": true,
     "outDir": "dist/mwa-logger",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,

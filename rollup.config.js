@@ -5,8 +5,6 @@ const { default: dts } = require('rollup-plugin-dts');
 
 const packageJson = require('./package.json');
 
-console.log(dts);
-
 module.exports = [
   {
     input: 'src/index.ts',
@@ -25,7 +23,7 @@ module.exports = [
     plugins: [
       resolve(),
       commonjs(),
-      typescript({ tsconfig: './tsconfig.json' })
+      typescript({ tsconfig: './tsconfig.json', sourceMap: false })
     ]
   },
   {
