@@ -1,6 +1,10 @@
-import React, { ErrorInfo, PropsWithChildren } from 'react';
+import React, { ErrorInfo, PropsWithChildren, ReactElement } from 'react';
 
-export class ErrorBoundary extends React.Component<PropsWithChildren, { hasError: boolean, error: any, errorInfo: any }> {
+export type ErrorBoundaryProps = {
+  fallback: ReactElement;
+}
+
+export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBoundaryProps>, { hasError: boolean, error: any, errorInfo: any }> {
   constructor(props: any) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
@@ -21,7 +25,7 @@ export class ErrorBoundary extends React.Component<PropsWithChildren, { hasError
 
   render() {
     if (this.state.hasError) {
-      return <div>Error</div>
+      return this.props.fallback;
     }
 
     return this.props.children;

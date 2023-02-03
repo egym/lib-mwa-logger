@@ -23,7 +23,7 @@ module.exports = [
     plugins: [
       resolve(),
       commonjs(),
-      typescript({ tsconfig: './tsconfig.json', sourceMap: false })
+      typescript({ tsconfig: './tsconfig.json', sourceMap: false }),
     ]
   },
   {
