@@ -11,7 +11,6 @@ import WSOD from './WSOD';
 
 type Props = {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-  test: string;
 };
 
 const EgymMwaDevtools: FC<Props> = ({ position }) => {
