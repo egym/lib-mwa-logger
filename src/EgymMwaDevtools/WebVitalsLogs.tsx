@@ -14,7 +14,9 @@ const WebVitalsLogs: FC = () => {
     const searchLowercase = search.toLowerCase();
 
     return messages.filter(it => it.type === 'webVitals').filter(it => it.text.toLowerCase().includes(searchLowercase));
-  }, [messages, search])
+  }, [messages, search]);
+
+  console.log('search', search);
 
   return (
     <LogTypeWrapper

@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useCallback, useState } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import TitleWithSearch, { TitleWithSearchProps } from './TitleWithSearch';
 
 type Props = {
@@ -9,8 +9,16 @@ const LogTypeWrapper: FC<PropsWithChildren<Props>> = ({ children, titleWithSearc
   const [hidden, setHidden] = useState(true);
 
   const toggleHide = useCallback(() => {
-    setHidden(prev => !prev)
-  }, []);
+    setHidden(prev => {
+      const newValue = !prev;
+
+      if (newValue) {
+        titleWithSearchProps.clearSearch();
+      }
+
+      return newValue;
+    });
+  }, [hidden, titleWithSearchProps.clearSearch]);
 
   return (
     <div style={{ color: 'black' }}>

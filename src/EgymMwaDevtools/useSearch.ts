@@ -13,7 +13,12 @@ const useSearch = (searchId: SearchId) => {
   }, []);
 
   const clearSearch = useCallback(() => {
-    (document.getElementById(searchId) as HTMLInputElement)!.value = '';
+    const input = document.getElementById(searchId) as HTMLInputElement;
+
+    if (input) {
+      input.value = '';
+    }
+
     setSearch('');
   }, []);
 
