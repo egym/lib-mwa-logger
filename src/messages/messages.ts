@@ -1,7 +1,9 @@
+import { Metric as WebVitalsMetric } from 'web-vitals';
+
 type BaseMessage = {
   id: number;
   dateTime: Date;
-  type: 'http' | 'debug',
+  type: 'http' | 'portals' | 'debug' | 'webVitals',
   text: string;
   data?: any;
 }
@@ -11,34 +13,95 @@ export type DebugMessage = BaseMessage & {
 }
 
 export type HttpMessage = BaseMessage & {
-  method: string;
   type: 'http',
+  method: string;
   requestId: string | number;
   direction: 'request' | 'response';
 }
 
-export type Message = DebugMessage | HttpMessage;
+export type PortalsMessage = BaseMessage & {
+  type: 'portals',
+  direction: 'request' | 'response';
+}
+
+export type WebVitalsMessage = BaseMessage & {
+  type: 'webVitals',
+  data: WebVitalsMetric,
+}
+
+export type Message = DebugMessage | HttpMessage | PortalsMessage | WebVitalsMessage;
 
 type voidFunction = () => void;
 
 let messages: Message[] = [];
 let listeners: voidFunction[] = [];
 
-export const logHttpRequest = (method: string, url: HttpMessage['text'], requestId: HttpMessage['requestId'], payload?: HttpMessage['data']) => {
+const appendAndEmitMessage = <T extends Message>(newMessage: T) => {
   messages = [
     ...messages,
-    { type: 'http', id: Date.now(), dateTime: new Date(), method, text: url, requestId, direction: 'request', data: payload }
-  ]
-  emitChange();
-};
+    newMessage,
+  ];
 
-export const logHttpResponse = (method: string, url: HttpMessage['text'], requestId: HttpMessage['requestId'], response?: HttpMessage['data']) => {
-  messages = [
-    ...messages,
-    { type: 'http', id: Date.now(), dateTime: new Date(), method, text: url, requestId, direction: 'response', data: response }
-  ]
+  console.debug(newMessage);
+
   emitChange();
-};
+}
+
+export const logHttpRequest = (method: HttpMessage['method'], url: HttpMessage['text'], requestId: HttpMessage['requestId'], payload?: HttpMessage['data']) => appendAndEmitMessage({
+  type: 'http',
+  id: Date.now(),
+  dateTime: new Date(),
+  method,
+  text: url,
+  requestId,
+  direction: 'request',
+  data: payload
+});
+
+export const logHttpResponse = (method: HttpMessage['method'], url: HttpMessage['text'], requestId: HttpMessage['requestId'], response?: HttpMessage['data']) => appendAndEmitMessage({
+  type: 'http',
+  id: Date.now(),
+  dateTime: new Date(),
+  method,
+  text: url,
+  requestId,
+  direction: 'response',
+  data: response
+});
+
+export const logDebug = (text: DebugMessage['text'], data?: DebugMessage['data']) => appendAndEmitMessage({
+  type: 'debug',
+  id: Date.now(),
+  dateTime: new Date(),
+  text,
+  data
+})
+
+export const logPortalsRequest = (topic: PortalsMessage['text'], data?: PortalsMessage['data']) => appendAndEmitMessage({
+  type: 'portals',
+  id: Date.now(),
+  dateTime: new Date(),
+  text: topic,
+  data,
+  direction: 'request'
+})
+
+export const logPortalsResponse = (topic: PortalsMessage['text'], data?: PortalsMessage['data']) => appendAndEmitMessage({
+  type: 'portals',
+  id: Date.now(),
+  dateTime: new Date(),
+  text: topic,
+  data,
+  direction: 'response'
+})
+
+export const logWebWitals = (metric: WebVitalsMessage['data']) => appendAndEmitMessage({
+  type: 'webVitals',
+  id: Date.now(),
+  dateTime: new Date(),
+  text: metric.name,
+  data: metric,
+})
 
 export const subscribe = (listener: voidFunction) => {
   listeners = [...listeners, listener];

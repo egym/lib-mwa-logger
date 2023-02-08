@@ -1,8 +1,12 @@
 import React, { FC, useCallback, useMemo, useState, useSyncExternalStore } from 'react';
-import { getSnapshot, HttpMessage, Message, subscribe } from '../messages';
+import { getSnapshot, subscribe } from '../messages';
 import { getPosition } from './helpers';
 import DebugIcon from './DebugIcon';
 import CloseIcon from './CloseIcon';
+import HttpLogs from './HttpLogs';
+import DebugLogs from './DebugLogs';
+import PortalsLogs from './PortalsLogs';
+import WebVitalsLogs from './WebVitalsLogs';
 
 type Props = {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
@@ -13,35 +17,16 @@ const EgymMwaDevtools: FC<Props> = ({ position }) => {
   const messages = useSyncExternalStore(subscribe, getSnapshot);
   const [open, setOpen] = useState(false);
 
-  console.log('messages', messages);
-
   const positionStyles = useMemo(() => getPosition(position), [position]);
 
   const toggle = useCallback(() => {
     setOpen(prev => !prev)
   }, []);
 
-  // @ts-ignore
-  const httpMessages = useMemo<Record<string, HttpMessage[]>>(() => {
-    return messages.filter(it => it.type === 'http').reduce<Record<string, Message[]>>((acc, it) => {
-      if (it.type === 'http') {
-        return {
-          ...acc,
-          [it.requestId]: [...(acc[it.requestId] || []), it],
-        }
-      }
-
-      return acc;
-    }, {})
-  }, [messages]);
-
-  const debugMessages = useMemo(() => {
-    return messages.filter(it => it.type === 'debug');
-  }, [])
-
   return (
     <div
       style={{
+        fontFamily: 'HelveticaNeue',
         position: 'fixed', left: 0, top: 0, zIndex: 9999, padding: open ? '15px' : undefined,
         width: open ? '100vw' : 'auto', height: open ? '100vh' : 'auto', boxSizing: 'border-box',
         ...positionStyles.wrapper,
@@ -53,7 +38,7 @@ const EgymMwaDevtools: FC<Props> = ({ position }) => {
           height: '30px',
           color: '#fff',
           border: 'none',
-          borderRadius: '5px',
+          borderRadius: '2px',
           padding: '3px',
           cursor: 'pointer',
           boxShadow: 'rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset',
@@ -72,61 +57,42 @@ const EgymMwaDevtools: FC<Props> = ({ position }) => {
               position: 'absolute', top: '15px', left: '15px',
               width: 'calc(100% - 30px)',
               height: 'calc(100% - 30px)',
-              background: 'white', borderRadius: '5px',
+              background: 'white', borderRadius: '2px',
               boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)',
-              padding: '15px',
               fontSize: '14px',
+              overflow: 'hidden',
+              overflowY: 'auto'
             }}
           >
-            <button
-              onClick={toggle}
-              style={{
-                width: '30px',
-                height: '30px',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                padding: '3px',
-                cursor: 'pointer',
-                background: 'transparent',
-                marginBottom: '20px',
-              }}
-            >
-              <CloseIcon style={{ maxWidth: '100%', maxHeight: '100%' }}/>
-            </button>
+            <div style={{ zIndex: 1000, borderBottom: '1px solid #eeeeee', padding: '15px', position: 'sticky', top: 0, background: 'white', boxShadow: '0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12)' }}>
+              <button
+                onClick={toggle}
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '2px',
+                  padding: '3px',
+                  cursor: 'pointer',
+                  background: 'transparent',
+                }}
+              >
+                <CloseIcon style={{ maxWidth: '100%', maxHeight: '100%' }}/>
+              </button>
+            </div>
 
-            {!Object.keys(httpMessages).length && !debugMessages.length && <div style={{ padding: '15px', textAlign: 'center', color: 'black' }}>All clear!</div>}
+            <div style={{ padding: '15px', }}>
+              {!messages.length && <div style={{ padding: '15px', textAlign: 'center', color: 'black' }}>All clear!</div>}
 
-            {!!Object.keys(httpMessages).length && <div style={{ color: 'black', overflowY: 'scroll', maxHeight: '100%', paddingBottom: '100px' }}>
-              <div style={{ fontSize: '20px', fontWeight: 700, marginBottom: '15px' }}>
-                HTTP
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {Object.keys(httpMessages).map(httpRequestId => {
-                  return <div style={{ display: 'flex', flexDirection: 'column', border: '1px solid black', borderRadius: '3px', padding: '5px' , marginBottom: '20px'}}>
-                    <pre style={{ marginBottom: '10px', color: 'darkblue', fontSize: '14px' }}>
-                      {httpMessages[httpRequestId][0]?.method?.toUpperCase()} {httpMessages[httpRequestId][0].text}
-                    </pre>
-                    {httpMessages[httpRequestId].map(it => {
-                      return <div>
-                        <div style={{ fontSize: '12px' }}>
-                          {it.direction?.toUpperCase()} at {it.dateTime.toLocaleString()}:
-                        </div>
-                        {it.data instanceof Error
-                          ? <pre style={{ color: 'red' }}>{it.data.name} {it.data.message} {it.data.stack}</pre>
-                          : (Array.isArray(it.data) || typeof it.data === 'object')
-                          && (
-                            <pre>
-                              {JSON.stringify(it.data, null, 2)}
-                            </pre>
-                          ) || it.data}
-                      </div>
-                    })}
-                  </div>
-                })}
-              </div>
-            </div>}
+              <HttpLogs />
 
+              <DebugLogs />
+
+              <PortalsLogs />
+
+              <WebVitalsLogs />
+            </div>
 
           </div>
         )
