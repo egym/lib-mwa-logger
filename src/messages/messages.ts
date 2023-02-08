@@ -3,7 +3,7 @@ import { Metric as WebVitalsMetric } from 'web-vitals';
 type BaseMessage = {
   id: number;
   dateTime: Date;
-  type: 'http' | 'portals' | 'debug' | 'webVitals',
+  type: 'http' | 'portals' | 'debug' | 'webVitals' | 'wsod',
   text: string;
   data?: any;
 }
@@ -29,7 +29,11 @@ export type WebVitalsMessage = BaseMessage & {
   data: WebVitalsMetric,
 }
 
-export type Message = DebugMessage | HttpMessage | PortalsMessage | WebVitalsMessage;
+export type WSODMessage = BaseMessage & {
+  type: 'wsod',
+}
+
+export type Message = DebugMessage | HttpMessage | PortalsMessage | WebVitalsMessage | WSODMessage;
 
 type voidFunction = () => void;
 
@@ -101,6 +105,14 @@ export const logWebWitals = (metric: WebVitalsMessage['data']) => appendAndEmitM
   dateTime: new Date(),
   text: metric.name,
   data: metric,
+});
+
+export const logWSOD = (data: WSODMessage['data']) => appendAndEmitMessage({
+  type: 'wsod',
+  id: Date.now(),
+  dateTime: new Date(),
+  text: 'WSOD',
+  data,
 })
 
 export const subscribe = (listener: voidFunction) => {

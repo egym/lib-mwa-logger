@@ -1,18 +1,22 @@
-import React, { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useState } from 'react';
 import TitleWithSearch, { TitleWithSearchProps } from './TitleWithSearch';
 
 type Props = {
   titleWithSearchProps: Omit<TitleWithSearchProps, 'toggleHide' | 'hidden'>;
+  initialHidden?: boolean;
+  expandable?: boolean;
 };
 
-const LogTypeWrapper: FC<PropsWithChildren<Props>> = ({ children, titleWithSearchProps }) => {
-  const [hidden, setHidden] = useState(true);
+const LogTypeWrapper: FC<PropsWithChildren<Props>> = ({ children, titleWithSearchProps, initialHidden = true, expandable = true}) => {
+  const [hidden, setHidden] = useState(expandable || initialHidden);
 
   const toggleHide = useCallback(() => {
+    if (!expandable) return;
+
     setHidden(prev => {
       const newValue = !prev;
 
-      if (newValue) {
+      if (newValue && titleWithSearchProps.clearSearch) {
         titleWithSearchProps.clearSearch();
       }
 
@@ -22,7 +26,7 @@ const LogTypeWrapper: FC<PropsWithChildren<Props>> = ({ children, titleWithSearc
 
   return (
     <div style={{ color: 'black' }}>
-      <TitleWithSearch {...titleWithSearchProps} toggleHide={toggleHide} hidden={hidden} />
+      <TitleWithSearch {...titleWithSearchProps} toggleHide={expandable ? toggleHide : undefined} hidden={hidden} />
       {!hidden && children}
     </div>
   );

@@ -1,26 +1,23 @@
 import React, { ErrorInfo, PropsWithChildren, ReactElement } from 'react';
+import { logWSOD } from '../messages';
 
 export type ErrorBoundaryProps = {
   fallback: ReactElement;
 }
 
-export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBoundaryProps>, { hasError: boolean, error: any, errorInfo: any }> {
+export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBoundaryProps>, { hasError: boolean }> {
   constructor(props: any) {
     super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
+    this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(error: Error) {
-    console.log('error 1', error);
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.log('error 2', error);
-    console.log('error 23', errorInfo);
-    // You can also log the error to an error reporting service
-    this.setState({ error, errorInfo });
+    logWSOD({ error, errorInfo })
   }
 
   render() {

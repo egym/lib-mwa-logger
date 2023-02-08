@@ -7,6 +7,7 @@ import HttpLogs from './HttpLogs';
 import DebugLogs from './DebugLogs';
 import PortalsLogs from './PortalsLogs';
 import WebVitalsLogs from './WebVitalsLogs';
+import WSOD from './WSOD';
 
 type Props = {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
@@ -85,6 +86,8 @@ const EgymMwaDevtools: FC<Props> = ({ position }) => {
             <div style={{ padding: '15px', }}>
               {!messages.length && <div style={{ padding: '15px', textAlign: 'center', color: 'black' }}>All clear!</div>}
 
+              <WSOD />
+
               <HttpLogs />
 
               <DebugLogs />
@@ -92,6 +95,7 @@ const EgymMwaDevtools: FC<Props> = ({ position }) => {
               <PortalsLogs />
 
               <WebVitalsLogs />
+
             </div>
 
           </div>

@@ -16,7 +16,7 @@ const WebVitalsLogs: FC = () => {
     return messages.filter(it => it.type === 'webVitals').filter(it => it.text.toLowerCase().includes(searchLowercase));
   }, [messages, search]);
 
-  return (
+  return (!!webVitalsMessages.length || search) ? (
     <LogTypeWrapper
       titleWithSearchProps={{
         searchId: SearchId.WebVitals,
@@ -36,7 +36,7 @@ const WebVitalsLogs: FC = () => {
 
       </div>
     </LogTypeWrapper>
-  );
+  ) : null;
 };
 
 export default WebVitalsLogs;

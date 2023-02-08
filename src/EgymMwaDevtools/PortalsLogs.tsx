@@ -25,7 +25,7 @@ const PortalsLogs: FC = () => {
   }, [portalsMessages]);
 
   return (
-    (!!Object.keys(portalsMessages).length || search) ? (
+    (!!portalsMessages.length || search) ? (
       <LogTypeWrapper
         titleWithSearchProps={{
           searchId: SearchId.Portals,
