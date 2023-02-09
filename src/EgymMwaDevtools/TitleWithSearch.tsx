@@ -23,13 +23,13 @@ const TitleWithSearch: FC<TitleWithSearchProps> = ({
   toggleHide,
 }) => {
   return (
-    <div style={{ fontSize: '16px', fontWeight: 700, marginBottom: '15px' }}>
+    <div style={{ fontSize: '16px', fontWeight: 700, marginBottom: '10px' }}>
       <div style={{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        padding: '5px 15px',
+        padding: '5px 10px',
         background: 'black',
         color: 'white',
         borderRadius: '2px',
@@ -39,10 +39,11 @@ const TitleWithSearch: FC<TitleWithSearchProps> = ({
           <button onClick={toggleHide} style={{
             background: 'none',
             border: 'none',
-            width: '20px',
+            width: '30px',
             height: '25px',
-            marginRight: '20px',
-            marginLeft: '5px'
+            paddingRight: '10px',
+            paddingLeft: '5px',
+            boxSizing: 'border-box',
           }}>
             <DownArrowIcon color="white" style={{
               width: '100%',
@@ -58,7 +59,7 @@ const TitleWithSearch: FC<TitleWithSearchProps> = ({
         onSubmit={confirmSearch}
         style={{ width: '100%', display: 'flex', alignItems: 'center', marginTop: '10px' }}
       >
-        <div style={{ position: 'relative', height: '35px', width: '200px', marginRight: '15px', flex: 1 }}>
+        <div style={{ position: 'relative', height: '35px', width: '200px', marginRight: '10px', flex: 1 }}>
           <input type="text" id={searchId} placeholder="Search..." style={{
             position: 'absolute',
             background: 'white',

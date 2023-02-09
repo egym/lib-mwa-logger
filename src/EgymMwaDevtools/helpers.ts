@@ -6,12 +6,15 @@ const getCssVariableValue = (name: string, fallback: string) => {
   return value;
 }
 
-export const safeAreaLeft = getCssVariableValue('--ion-safe-area-left', '15px');
-export const safeAreaRight = getCssVariableValue('--ion-safe-area-right', '15px');
-export const safeAreaTop = getCssVariableValue('--ion-safe-area-top', '15px');
-export const safeAreaBottom = getCssVariableValue('--ion-safe-area-bottom', '15px');
-
 export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right') => {
+
+  const safeArea = {
+    left: getCssVariableValue('--ion-safe-area-left', '15px'),
+    right: getCssVariableValue('--ion-safe-area-right', '15px'),
+    top: getCssVariableValue('--ion-safe-area-top', '15px'),
+    bottom: getCssVariableValue('--ion-safe-area-bottom', '15px')
+  }
+
   switch (position) {
     case 'top-left':
       return {
@@ -20,9 +23,10 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           left: 0,
         },
         button: {
-          top: safeAreaTop,
-          left: safeAreaLeft,
-        }
+          top: safeArea.top,
+          left: safeArea.left,
+        },
+        safeArea
       }
     case 'bottom-left':
       return {
@@ -31,9 +35,10 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           left: 0,
         },
         button: {
-          bottom: safeAreaBottom,
-          left: safeAreaLeft,
-        }
+          bottom: safeArea.bottom,
+          left: safeArea.left,
+        },
+        safeArea
       }
     case 'bottom-right':
       return {
@@ -42,9 +47,10 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           right: 0,
         },
         button: {
-          bottom: safeAreaBottom,
-          right: safeAreaRight,
-        }
+          bottom: safeArea.bottom,
+          right: safeArea.right,
+        },
+        safeArea
       }
     case 'top-right':
     default:
@@ -54,9 +60,10 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           right: 0,
         },
         button: {
-          top: safeAreaTop,
-          right: safeAreaRight,
-        }
+          top: safeArea.top,
+          right: safeArea.right,
+        },
+        safeArea
       }
   }
 }

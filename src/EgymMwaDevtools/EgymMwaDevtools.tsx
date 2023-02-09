@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import { getSnapshot, subscribe } from '../messages';
-import { getPosition, safeAreaBottom, safeAreaLeft, safeAreaRight, safeAreaTop } from './helpers';
+import { getPosition } from './helpers';
 import DebugIcon from './DebugIcon';
 import CloseIcon from './CloseIcon';
 import HttpLogs from './HttpLogs';
@@ -15,14 +15,19 @@ type Props = {
   buttonStyle?: CSSProperties;
 };
 
-const contentWidth = `calc(100% - ${safeAreaLeft} - ${safeAreaRight})`;
-const contentHeight = `calc(100% - ${safeAreaTop} - ${safeAreaBottom})`;
-
 const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => {
   const messages = useSyncExternalStore(subscribe, getSnapshot);
   const [open, setOpen] = useState(false);
 
   const positionStyles = useMemo(() => getPosition(position), [position]);
+
+  const contentWidth = useMemo(() => {
+    return `calc(100% - ${positionStyles.safeArea.left} - ${positionStyles.safeArea.right})`
+  }, [positionStyles.safeArea]);
+
+  const contentHeight = useMemo(() => {
+    return `calc(100% - ${positionStyles.safeArea.top} - ${positionStyles.safeArea.bottom})`
+  }, [positionStyles.safeArea]);
 
   const toggle = useCallback(() => {
     setOpen(prev => !prev)
