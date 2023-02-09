@@ -22,8 +22,11 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
 
   useEffect(() => {
     window.addEventListener('load', () => {
-      logDebug('loaded');
-      setPositionStyles(getPosition(position))
+
+      const styles = getPosition(position);
+
+      logDebug('loaded', styles);
+      setPositionStyles(styles);
     })
   }, [position])
 
