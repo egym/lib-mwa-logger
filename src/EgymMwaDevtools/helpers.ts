@@ -1,7 +1,5 @@
 const getCssVariableValue = (name: string, fallback: string) => {
-  const value = getComputedStyle(document.body).getPropertyValue(name);
-
-  console.log(name, value);
+  const value = getComputedStyle(document.body).getPropertyValue(name).trim();
 
   if (!value || value === '0px') return fallback;
 
