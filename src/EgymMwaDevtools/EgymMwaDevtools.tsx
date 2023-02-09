@@ -1,5 +1,5 @@
-import React, { CSSProperties, FC, useCallback, useMemo, useState, useSyncExternalStore } from 'react';
-import { getSnapshot, subscribe } from '../messages';
+import React, { CSSProperties, FC, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { getSnapshot, logDebug, subscribe } from '../messages';
 import { getPosition } from './helpers';
 import DebugIcon from './DebugIcon';
 import CloseIcon from './CloseIcon';
@@ -18,24 +18,34 @@ type Props = {
 const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => {
   const messages = useSyncExternalStore(subscribe, getSnapshot);
   const [open, setOpen] = useState(false);
+  const [positionStyles, setPositionStyles] = useState<ReturnType<typeof getPosition> | null>(null);
 
-  const positionStyles = useMemo(() => getPosition(position), [position]);
+  useEffect(() => {
+    window.addEventListener('load', () => {
+      logDebug('loaded');
+      setPositionStyles(getPosition(position))
+    })
+  }, [position])
 
   console.log('positionStyles', positionStyles);
 
   const contentWidth = useMemo(() => {
+    if (!positionStyles) return undefined;
+
     return `calc(100% - ${positionStyles.safeArea.left} - ${positionStyles.safeArea.right})`
-  }, [positionStyles.safeArea]);
+  }, [positionStyles]);
 
   const contentHeight = useMemo(() => {
+    if (!positionStyles) return undefined;
+
     return `calc(100% - ${positionStyles.safeArea.top} - ${positionStyles.safeArea.bottom})`
-  }, [positionStyles.safeArea]);
+  }, [positionStyles]);
 
   const toggle = useCallback(() => {
     setOpen(prev => !prev)
   }, []);
 
-  return (
+  return positionStyles ? (
     <div
       style={{
         fontFamily: 'HelveticaNeue',
@@ -115,7 +125,7 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
         )
       }
     </div>
-  );
+  ) : null;
 };
 
 export default EgymMwaDevtools;
