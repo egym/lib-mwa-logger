@@ -1,3 +1,16 @@
+const getCssVariableValue = (name: string, fallback: string) => {
+  const value = getComputedStyle(document.body).getPropertyValue(name);
+
+  if (!value || value === '0px') return fallback;
+
+  return value;
+}
+
+export const safeAreaLeft = getCssVariableValue('--ion-safe-area-left', '15px');
+export const safeAreaRight = getCssVariableValue('--ion-safe-area-right', '15px');
+export const safeAreaTop = getCssVariableValue('--ion-safe-area-top', '15px');
+export const safeAreaBottom = getCssVariableValue('--ion-safe-area-bottom', '15px');
+
 export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right') => {
   switch (position) {
     case 'top-left':
@@ -7,8 +20,8 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           left: 0,
         },
         button: {
-          top: '15px',
-          left: '15px',
+          top: safeAreaTop,
+          left: safeAreaLeft,
         }
       }
     case 'bottom-left':
@@ -18,8 +31,8 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           left: 0,
         },
         button: {
-          bottom: '15px',
-          left: '15px',
+          bottom: safeAreaBottom,
+          left: safeAreaLeft,
         }
       }
     case 'bottom-right':
@@ -29,8 +42,8 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           right: 0,
         },
         button: {
-          bottom: '15px',
-          right: '15px',
+          bottom: safeAreaBottom,
+          right: safeAreaRight,
         }
       }
     case 'top-right':
@@ -41,8 +54,8 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
           right: 0,
         },
         button: {
-          top: '15px',
-          right: '15px',
+          top: safeAreaTop,
+          right: safeAreaRight,
         }
       }
   }

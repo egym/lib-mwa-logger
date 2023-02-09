@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import { getSnapshot, subscribe } from '../messages';
-import { getPosition } from './helpers';
+import { getPosition, safeAreaBottom, safeAreaLeft, safeAreaRight, safeAreaTop } from './helpers';
 import DebugIcon from './DebugIcon';
 import CloseIcon from './CloseIcon';
 import HttpLogs from './HttpLogs';
@@ -14,6 +14,9 @@ type Props = {
   wrapperStyle?: CSSProperties;
   buttonStyle?: CSSProperties;
 };
+
+const contentWidth = `calc(100% - ${safeAreaLeft} - ${safeAreaRight})`;
+const contentHeight = `calc(100% - ${safeAreaTop} - ${safeAreaBottom})`;
 
 const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => {
   const messages = useSyncExternalStore(subscribe, getSnapshot);
@@ -59,8 +62,8 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
           <div
             style={{
               position: 'absolute', top: '15px', left: '15px',
-              width: 'calc(100% - 30px)',
-              height: 'calc(100% - 30px)',
+              width: contentWidth,
+              height: contentHeight,
               background: 'white', borderRadius: '2px',
               boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)',
               fontSize: '14px',
