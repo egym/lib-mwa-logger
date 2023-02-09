@@ -81,8 +81,6 @@ const TitleWithSearch: FC<TitleWithSearchProps> = ({
             height: '14px',
             background: 'none',
             border: 'none',
-            fontSize: '14px',
-            fontWeight: 500,
           }}>
             <CloseIcon style={{ maxWidth: '100%', maxHeight: '100%' }}/>
           </button>
@@ -94,7 +92,9 @@ const TitleWithSearch: FC<TitleWithSearchProps> = ({
           border: '1px solid black',
           borderRadius: '2px',
           color: 'black',
-          padding: '0 5px'
+          padding: '0 5px',
+          fontSize: '14px',
+          fontWeight: 500,
         }}>
           Search
         </button>
