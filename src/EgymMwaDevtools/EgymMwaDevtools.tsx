@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState, useSyncExternalStore } from 'react';
+import React, { CSSProperties, FC, useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import { getSnapshot, subscribe } from '../messages';
 import { getPosition } from './helpers';
 import DebugIcon from './DebugIcon';
@@ -11,9 +11,11 @@ import WSOD from './WSOD';
 
 type Props = {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  wrapperStyle?: CSSProperties;
+  buttonStyle?: CSSProperties;
 };
 
-const EgymMwaDevtools: FC<Props> = ({ position }) => {
+const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => {
   const messages = useSyncExternalStore(subscribe, getSnapshot);
   const [open, setOpen] = useState(false);
 
@@ -27,9 +29,10 @@ const EgymMwaDevtools: FC<Props> = ({ position }) => {
     <div
       style={{
         fontFamily: 'HelveticaNeue',
-        position: 'fixed', left: 0, top: 0, zIndex: 9999, padding: open ? '15px' : undefined,
+        position: 'fixed', zIndex: 9999, padding: open ? '15px' : undefined,
         width: open ? '100vw' : 'auto', height: open ? '100vh' : 'auto', boxSizing: 'border-box',
         ...positionStyles.wrapper,
+        ...wrapperStyle,
       }}
     >
       <button
@@ -45,6 +48,7 @@ const EgymMwaDevtools: FC<Props> = ({ position }) => {
           backgroundImage: 'radial-gradient(100% 100% at 100% 0px, rgb(48 223 85) 0px, rgb(30 72 21) 100%)',
           position: 'absolute',
           ...positionStyles.button,
+          ...buttonStyle
         }}
         onClick={toggle}
       >
