@@ -21,6 +21,8 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
 
   const positionStyles = useMemo(() => getPosition(position), [position]);
 
+  console.log('positionStyles', positionStyles);
+
   const contentWidth = useMemo(() => {
     return `calc(100% - ${positionStyles.safeArea.left} - ${positionStyles.safeArea.right})`
   }, [positionStyles.safeArea]);
