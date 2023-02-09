@@ -3,11 +3,12 @@ import React, { CSSProperties, FC } from 'react';
 type Props = {
   data: any;
   preStyle?: CSSProperties;
+  wrapperStyle?: CSSProperties;
 };
 
-const AnyData: FC<Props> = ({ data, preStyle }) => {
+const AnyData: FC<Props> = ({ data, wrapperStyle, preStyle }) => {
   return (
-    <div>
+    <div style={wrapperStyle}>
       {
         (Array.isArray(data) || typeof data === 'object')
           ? (

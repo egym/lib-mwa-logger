@@ -67,3 +67,11 @@ export const getPosition = (position?: 'top-left' | 'top-right' | 'bottom-left' 
       }
   }
 }
+
+export const getIsHttpError = (status: string | number) => {
+  const statusNumber = Number(status);
+
+  if (isNaN(statusNumber)) return false;
+
+  return statusNumber >= 400 && statusNumber < 600;
+}

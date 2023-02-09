@@ -1,10 +1,10 @@
 import React, { FC, useMemo, useState } from 'react';
-import DownArrowIcon from './DownArrowIcon';
 import { HttpMessage } from '../messages';
 import HttpLogItemRequestData from './HttpLogItemRequestData';
 import HttpLogItemResponseData from './HttpLogItemResponseData';
 import LogItemHeader from './LogItemHeader';
 import LogItemIndexAndDateTime from './LogItemIndexAndDateTime';
+import { getIsHttpError } from './helpers';
 
 type Props = {
   index: number;
@@ -17,14 +17,14 @@ const HttpLogItem: FC<Props> = ({ index, messages }) => {
   const isErrorResponse = useMemo(() => {
     if (!messages[1]) return false;
 
-    return messages[1].data instanceof Error;
+    return messages[1].data instanceof Error || getIsHttpError(messages[1].data.status);
   }, [messages]);
 
   const color = useMemo(() => {
     if (!messages[1]) return '#8C8C8C';
 
     return isErrorResponse ? '#D92845' : '#17843B';
-  }, []);
+  }, [messages, isErrorResponse]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
