@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import { getSnapshot, logDebug, subscribe } from '../messages';
+import { getSnapshot, subscribe } from '../messages';
 import { getPosition } from './helpers';
 import DebugIcon from './DebugIcon';
 import CloseIcon from './CloseIcon';
@@ -21,16 +21,12 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
   const [positionStyles, setPositionStyles] = useState<ReturnType<typeof getPosition> | null>(null);
 
   useEffect(() => {
-    // addint timeout to make sure css variable accessible in the MWA
+    // adding timeout to make sure css variable accessible in the MWA
     setTimeout(() => {
       const styles = getPosition(position);
-
-      logDebug('loaded', styles);
       setPositionStyles(styles);
     }, 1000);
-  }, [position])
-
-  console.log('positionStyles', positionStyles);
+  }, [position]);
 
   const contentWidth = useMemo(() => {
     if (!positionStyles) return undefined;
@@ -81,7 +77,7 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
         open && (
           <div
             style={{
-              position: 'absolute', top: '15px', left: '15px',
+              position: 'absolute', top: positionStyles.safeArea.top, left: positionStyles.safeArea.left,
               width: contentWidth,
               height: contentHeight,
               background: 'white', borderRadius: '2px',
