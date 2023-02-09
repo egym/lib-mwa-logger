@@ -21,13 +21,13 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
   const [positionStyles, setPositionStyles] = useState<ReturnType<typeof getPosition> | null>(null);
 
   useEffect(() => {
-    window.addEventListener('load', () => {
-
+    // addint timeout to make sure css variable accessible in the MWA
+    setTimeout(() => {
       const styles = getPosition(position);
 
       logDebug('loaded', styles);
       setPositionStyles(styles);
-    })
+    }, 1000);
   }, [position])
 
   console.log('positionStyles', positionStyles);
