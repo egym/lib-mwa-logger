@@ -4,8 +4,7 @@ name: Build
 on:
   push:
     branches:
-      - master
-      - main
+      - !main
 
 jobs:
   build:
@@ -31,6 +30,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Publish
-        run: npm publish --access public

@@ -4,7 +4,10 @@
   "description": "",
   "author": "EGYM",
   "license": "ISC",
-  "repository": "https://github.com/egym/lib-mwa-logger",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/egym/lib-mwa-logger.git"
+  },
   "homepage": "https://github.com/egym/lib-mwa-logger#readme",
   "scripts": {
     "build": "rollup -c"
