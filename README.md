@@ -66,13 +66,15 @@ const App: React.FC = () => {
 
 ### logHttpRequest, logHttpResponse
 
-Used in pair to display http request and corresponding response, provided requestId will join them in one group.
+Should be used in pair to display http request and it's corresponding response, provided requestId will join them in one group.
+
 ```ts
 declare const logHttpRequest: (method: string, url: string, requestId: string | number, payload?: any) => void;
 declare const logHttpResponse: (method: string, url: string, requestId: string | number, response?: any) => void;
 ```
 
 See [example](https://github.com/egym/mwa-reference/blob/main/src/utils/api/createApiRequest.ts#L58-L85):
+
 ```ts {4-7,21,26}
  try {
   const headers = await createHeaders(baseBackendUrl);
@@ -108,8 +110,60 @@ See [example](https://github.com/egym/mwa-reference/blob/main/src/utils/api/crea
 
 ### logDebug
 
-### logPortalsRequest
+Log any random message
 
-### logPortalsResponse
+```ts
+declare const logDebug: (text: string, data?: any) => void;
+```
+
+See [example](https://github.com/egym/mwa-reference/blob/main/src/index.tsx#L51):
+
+```ts
+logDebug('initialContext', initialContext);
+```
+
+<img src ="https://user-images.githubusercontent.com/15348910/218204891-8aee4d18-7b3a-4bfb-b13d-cec444d527f6.png" width="200">
+
+### logPortalsRequest, logPortalsResponse
+
+Log portals pub/sub messages
+
+```ts
+declare const logPortalsRequest: (topic: string, data?: any) => void;
+declare const logPortalsResponse: (topic: string, data?: any) => void;
+```
+
+It is recommended to wrap the `Portals.publish` call with a custom implementation that includes a log request, so this way every publish event is captured and displayed in the logger window:
+
+```ts
+export const portalsPublish: PortalsPlugin['publish'] = async (message) => {
+  logPortalsRequest(`${message.topic} ${message.data.type}`, message.data);
+
+  await Portals.publish(message);
+};
+```
+
+Same for `Portals.subscribe`:
+
+```ts
+export const portalsSubscribe = async <T>(
+  options: SubscribeOptions,
+  callback: SubscriptionCallback<T>
+): Promise<PortalSubscription> => {
+  return Portals.subscribe<T>(options, (...args) => {
+    logPortalsResponse(options.topic, {
+      ...options,
+      ...args,
+    });
+    callback(...args);
+  });
+};
+```
+
+<img src ="https://user-images.githubusercontent.com/15348910/218205043-ee80b01f-75bb-4b14-944f-be991409e755.png" width="200">
 
 ### logWebWitals
+
+<img src ="https://user-images.githubusercontent.com/15348910/218205131-61bc64e2-7905-4ab0-978f-3709b963d4a7.png" width="200">
+
+
