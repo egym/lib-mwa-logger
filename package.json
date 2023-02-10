@@ -1,9 +1,10 @@
 {
   "name": "@egym/mwa-logger",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "",
   "author": "EGYM",
   "license": "ISC",
+  "repository": "https://github.com/egym/lib-mwa-logger",
   "homepage": "https://github.com/egym/lib-mwa-logger#readme",
   "scripts": {
     "build": "rollup -c"
@@ -33,8 +34,7 @@
   "bugs": {
     "url": "https://github.com/egym/lib-mwa-logger/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/egym/lib-mwa-logger.git"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
