@@ -1,7 +1,9 @@
 # lib-mwa-logger
 The screen logger component that can capture and display request/response data exchanged between web and native apps.
 
-## `<EgymMwaDevtools />`
+# Components:
+
+## \<EgymMwaDevtools \/>
 
 `<EgymMwaDevtools />` responsible for collection of different log messages and displaying them.
 
@@ -39,7 +41,7 @@ After you add `<EgymMwaDevtools />` component you will see the debug button on t
   <img src ="https://user-images.githubusercontent.com/15348910/218140112-3829db04-94ae-4112-9191-cddbcfb58036.png" width="200">
 </div>
 
-## `<ErrorBoundary />`
+## \<ErrorBoundary \/>
 
 `<ErrorBoundary />` catches errors anywhere in the child component tree, log those errors as WSOD message in the dev tools window, and display a fallback UI instead of the component tree that crashed. See [example](https://github.com/egym/mwa-reference/blob/main/src/App.tsx#L48):
 
@@ -61,6 +63,8 @@ const App: React.FC = () => {
 ```
 
 <img src ="https://user-images.githubusercontent.com/15348910/218146677-5572ccee-bfb5-43f7-bff9-0dac38c02833.png" width="200">
+
+# Log functions:
 
 ## logHttpRequest, logHttpResponse
 
