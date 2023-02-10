@@ -164,6 +164,14 @@ export const portalsSubscribe = async <T>(
 
 ### logWebWitals
 
+```
+export declare const logWebWitals: (metric: any) => void;
+```
+
+Pass this function to the `reportWebVitals` to log results of performance metrics [src/index.tsx#77](https://github.com/egym/mwa-reference/blob/main/src/index.tsx#L77):
+
+```ts
+reportWebVitals(logWebWitals);
+```
+
 <img src ="https://user-images.githubusercontent.com/15348910/218205131-61bc64e2-7905-4ab0-978f-3709b963d4a7.png" width="200">
-
-
