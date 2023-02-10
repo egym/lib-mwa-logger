@@ -25,14 +25,11 @@ const DebugLogs: FC = () => {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-
         {!debugMessages.length &&
           <div style={{ padding: '15px', textAlign: 'center', color: 'black' }}>No search results</div>}
-
         {debugMessages.map((it, index) => {
           return <CommonLogItem key={it.id} message={it} index={index} />
         })}
-
       </div>
     </LogTypeWrapper>
   ) : null

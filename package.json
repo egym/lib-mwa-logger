@@ -1,6 +1,6 @@
 {
   "name": "@egym/mwa-logger",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "",
   "author": "EGYM",
   "license": "ISC",
@@ -36,8 +36,5 @@
   "types": "dist/mwa-logger/index.d.ts",
   "bugs": {
     "url": "https://github.com/egym/lib-mwa-logger/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   }
 }
