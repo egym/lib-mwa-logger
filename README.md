@@ -1,9 +1,7 @@
 # lib-mwa-logger
 The screen logger component that can capture and display request/response data exchanged between web and native apps.
 
-## API documentation:
-
-### `<EgymMwaDevtools />`
+## `<EgymMwaDevtools />`
 
 `<EgymMwaDevtools />` responsible for collection of different log messages and displaying them.
 
@@ -41,7 +39,7 @@ After you add `<EgymMwaDevtools />` component you will see the debug button on t
   <img src ="https://user-images.githubusercontent.com/15348910/218140112-3829db04-94ae-4112-9191-cddbcfb58036.png" width="200">
 </div>
 
-### `<ErrorBoundary />`
+## `<ErrorBoundary />`
 
 `<ErrorBoundary />` catches errors anywhere in the child component tree, log those errors as WSOD message in the dev tools window, and display a fallback UI instead of the component tree that crashed. See [example](https://github.com/egym/mwa-reference/blob/main/src/App.tsx#L48):
 
@@ -64,7 +62,7 @@ const App: React.FC = () => {
 
 <img src ="https://user-images.githubusercontent.com/15348910/218146677-5572ccee-bfb5-43f7-bff9-0dac38c02833.png" width="200">
 
-### logHttpRequest, logHttpResponse
+## logHttpRequest, logHttpResponse
 
 Should be used in pair to display http request and it's corresponding response, provided requestId will join them in one group.
 
@@ -108,7 +106,7 @@ See [example](https://github.com/egym/mwa-reference/blob/main/src/utils/api/crea
 
 <img src ="https://user-images.githubusercontent.com/15348910/218145513-6f889aff-8c4f-41c1-b0cb-1f5c2a2132ea.png" width="200">
 
-### logDebug
+## logDebug
 
 Log any random message
 
@@ -124,7 +122,7 @@ logDebug('initialContext', initialContext);
 
 <img src ="https://user-images.githubusercontent.com/15348910/218204891-8aee4d18-7b3a-4bfb-b13d-cec444d527f6.png" width="200">
 
-### logPortalsRequest, logPortalsResponse
+## logPortalsRequest, logPortalsResponse
 
 Log portals pub/sub messages
 
@@ -162,7 +160,7 @@ export const portalsSubscribe = async <T>(
 
 <img src ="https://user-images.githubusercontent.com/15348910/218205043-ee80b01f-75bb-4b14-944f-be991409e755.png" width="200">
 
-### logWebWitals
+## logWebWitals
 
 ```
 export declare const logWebWitals: (metric: any) => void;
