@@ -36,8 +36,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/egym/lib-mwa-logger.git"
-  },
-  "publishConfig": {
-    "registry": "https://egym.jfrog.io/egym/api/npm/npm-local"
   }
 }

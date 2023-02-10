@@ -32,8 +32,5 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Configure npm credentials
-        run: curl --user ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }} https://egym.jfrog.io/egym/api/npm/npm-local/auth/egym > ~/.npmrc
-
       - name: Publish
-        run: npm publish
+        run: npm publish --access public
