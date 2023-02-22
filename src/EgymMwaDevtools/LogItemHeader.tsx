@@ -11,7 +11,10 @@ type Props = {
 const LogItemHeader: FC<Props> = ({ open, setOpen, color = 'black', text }) => {
   return (
     <div style={{ marginBottom: '10px', fontSize: '14px', display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
-      <button onClick={() => setOpen(prev => !prev)} style={{ background: 'none', border: 'none', width: '30px', boxSizing: 'border-box', height: '17px', paddingRight: '10px', paddingLeft: '5px' }}>
+      <button
+        onClick={() => setOpen(prev => !prev)}
+        style={{ background: 'none', border: 'none', width: '30px', boxSizing: 'border-box', height: '17px', paddingRight: '10px', paddingLeft: '5px' }}
+      >
         <DownArrowIcon style={{ width: '100%', height: '100%', marginTop: '2px', transform: open ? 'rotateZ(180deg)' : undefined }} />
       </button>
       <div
