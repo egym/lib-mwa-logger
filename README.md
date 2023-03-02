@@ -2,7 +2,7 @@
 The screen logger component that can capture and display request/response data exchanged between web and native apps.
 
 # Install
-`npm install @egym/mwa-logger`
+`npm install @egym/mwa-logger --save`
 
 # Components:
 
