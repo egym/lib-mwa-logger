@@ -15,7 +15,7 @@ const AnyData: FC<Props> = ({ data, wrapperStyle, preStyle }) => {
             <pre style={{ fontFamily: 'HelveticaNeue', ...preStyle }}>
               {JSON.stringify(data, null, 2)}
             </pre>
-          ) : data
+          ) : String(data)
       }
     </div>
   );
