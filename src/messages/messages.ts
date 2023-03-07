@@ -1,7 +1,7 @@
 import { Metric as WebVitalsMetric } from 'web-vitals';
 
 type BaseMessage = {
-  id: number;
+  id: string;
   dateTime: Date;
   type: 'http' | 'portals' | 'debug' | 'webVitals' | 'wsod',
   text: string;
@@ -37,8 +37,6 @@ export type Message = DebugMessage | HttpMessage | PortalsMessage | WebVitalsMes
 
 type voidFunction = () => void;
 
-
-let id = 1;
 let messages: Message[] = [];
 let listeners: voidFunction[] = [];
 
@@ -55,7 +53,7 @@ const appendAndEmitMessage = <T extends Message>(newMessage: T) => {
 
 export const logHttpRequest = (method: HttpMessage['method'], url: HttpMessage['text'], requestId: HttpMessage['requestId'], payload?: HttpMessage['data']) => appendAndEmitMessage({
   type: 'http',
-  id: id + 1,
+  id: Math.random().toString(16).slice(2),
   dateTime: new Date(),
   method,
   text: url,
@@ -66,7 +64,7 @@ export const logHttpRequest = (method: HttpMessage['method'], url: HttpMessage['
 
 export const logHttpResponse = (method: HttpMessage['method'], url: HttpMessage['text'], requestId: HttpMessage['requestId'], response?: HttpMessage['data']) => appendAndEmitMessage({
   type: 'http',
-  id: id + 1,
+  id: Math.random().toString(16).slice(2),
   dateTime: new Date(),
   method,
   text: url,
@@ -77,7 +75,7 @@ export const logHttpResponse = (method: HttpMessage['method'], url: HttpMessage[
 
 export const logDebug = (text: DebugMessage['text'], data?: DebugMessage['data']) => appendAndEmitMessage({
   type: 'debug',
-  id: id + 1,
+  id: Math.random().toString(16).slice(2),
   dateTime: new Date(),
   text,
   data
@@ -85,7 +83,7 @@ export const logDebug = (text: DebugMessage['text'], data?: DebugMessage['data']
 
 export const logPortalsRequest = (topic: PortalsMessage['text'], data?: PortalsMessage['data']) => appendAndEmitMessage({
   type: 'portals',
-  id: id + 1,
+  id: Math.random().toString(16).slice(2),
   dateTime: new Date(),
   text: topic,
   data,
@@ -94,7 +92,7 @@ export const logPortalsRequest = (topic: PortalsMessage['text'], data?: PortalsM
 
 export const logPortalsResponse = (topic: PortalsMessage['text'], data?: PortalsMessage['data']) => appendAndEmitMessage({
   type: 'portals',
-  id: id + 1,
+  id: Math.random().toString(16).slice(2),
   dateTime: new Date(),
   text: topic,
   data,
@@ -103,7 +101,7 @@ export const logPortalsResponse = (topic: PortalsMessage['text'], data?: Portals
 
 export const logWebWitals = (metric: WebVitalsMessage['data']) => appendAndEmitMessage({
   type: 'webVitals',
-  id: id + 1,
+  id: Math.random().toString(16).slice(2),
   dateTime: new Date(),
   text: metric.name,
   data: metric,
@@ -111,7 +109,7 @@ export const logWebWitals = (metric: WebVitalsMessage['data']) => appendAndEmitM
 
 export const logWSOD = (data: WSODMessage['data']) => appendAndEmitMessage({
   type: 'wsod',
-  id: id + 1,
+  id: Math.random().toString(16).slice(2),
   dateTime: new Date(),
   text: 'WSOD',
   data,
