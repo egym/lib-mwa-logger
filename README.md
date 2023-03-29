@@ -15,7 +15,25 @@ type Props = {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   wrapperStyle?: CSSProperties;
   buttonStyle?: CSSProperties;
+  ciConfig?: CIConfig;
 };
+```
+
+```ts
+export type CIConfig = {
+  appId: CIConfigItem,
+  appName: CIConfigItem,
+  gitCommitSha: CIConfigItem,
+  gitCommitMsg: CIConfigItem,
+  gitRef: CIConfigItem,
+  gitRefType: CIConfigItem,
+  isAutomatedBuild: CIConfigItem,
+  automationId: CIConfigItem,
+  automationName: CIConfigItem,
+  buildId: CIConfigItem,
+  buildNumber: CIConfigItem,
+  platform: CIConfigItem,
+}
 ```
 
 Place it at the top level of your app tree, prefferably outside <IonApp /> component. See [example](https://github.com/egym/mwa-reference/blob/main/src/App.tsx#L46):
