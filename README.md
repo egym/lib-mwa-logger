@@ -20,6 +20,11 @@ type Props = {
 ```
 
 ```ts
+type CIConfigItem = {
+  value: string;
+  description: string;
+}
+
 export type CIConfig = {
   appId: CIConfigItem,
   appName: CIConfigItem,
