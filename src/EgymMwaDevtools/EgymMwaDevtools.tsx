@@ -8,14 +8,17 @@ import DebugLogs from './DebugLogs';
 import PortalsLogs from './PortalsLogs';
 import WebVitalsLogs from './WebVitalsLogs';
 import WSOD from './WSOD';
+import { CIConfig } from '../types';
+import CiConfigDisplay from './CIConfigDisplay';
 
 type Props = {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   wrapperStyle?: CSSProperties;
   buttonStyle?: CSSProperties;
+  ciConfig?: CIConfig;
 };
 
-const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => {
+const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle, ciConfig }) => {
   const messages = useSyncExternalStore(subscribe, getSnapshot);
   const [open, setOpen] = useState(false);
   const [positionStyles, setPositionStyles] = useState<ReturnType<typeof getPosition> | null>(null);
@@ -107,6 +110,8 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle }) => 
 
             <div style={{ padding: '15px', }}>
               {!messages.length && <div style={{ padding: '15px', textAlign: 'center', color: 'black' }}>All clear!</div>}
+
+              <CiConfigDisplay config={ciConfig} />
 
               <WSOD />
 
