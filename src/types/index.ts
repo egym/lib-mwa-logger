@@ -7,7 +7,7 @@ export type CIConfig = {
   appId: CIConfigItem,
   appName: CIConfigItem,
   gitCommitSha: CIConfigItem,
-  gitCommitMsg: CIConfigItem,
+  gitCommitMsg?: CIConfigItem,
   gitRef: CIConfigItem,
   gitRefType: CIConfigItem,
   isAutomatedBuild: CIConfigItem,
