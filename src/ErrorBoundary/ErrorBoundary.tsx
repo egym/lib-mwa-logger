@@ -1,8 +1,9 @@
 import React, { ErrorInfo, PropsWithChildren, ReactElement } from "react";
-import { logWSOD } from "../messages";
+import { getCIConfig, logWSOD } from "../messages";
+import { CIConfig } from '../types';
 
 export type ErrorBoundaryProps = {
-  fallback: ReactElement<{ error: Error }>;
+  fallback: ReactElement<{ error?: Error | null; ciConfig: CIConfig | null }>;
 };
 
 export class ErrorBoundary extends React.Component<
@@ -25,9 +26,13 @@ export class ErrorBoundary extends React.Component<
   }
 
   render() {
-    if (this.state.hasError && this.state.error !== null) {
+    if (this.state.hasError) {
+
+      const ciConfig = getCIConfig();
+
       return React.cloneElement(this.props.fallback, {
         error: this.state.error,
+        ciConfig,
       });
     }
 
