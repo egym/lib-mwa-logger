@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import { getSnapshot, subscribe } from '../messages';
+import { getSnapshot, setCIConfig, subscribe } from '../messages';
 import { getPosition } from './helpers';
 import DebugIcon from './DebugIcon';
 import CloseIcon from './CloseIcon';
@@ -30,6 +30,10 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle, ciCon
       setPositionStyles(styles);
     }, 1000);
   }, [position]);
+
+  useEffect(() => {
+    if (ciConfig) setCIConfig(ciConfig);
+  }, [ciConfig]);
 
   const contentWidth = useMemo(() => {
     if (!positionStyles) return undefined;
