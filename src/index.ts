@@ -9,3 +9,4 @@ export {
 export { setConfig } from "./config";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { default as EgymMwaDevtools } from "./EgymMwaDevtools";
+export { CIConfig } from './types';

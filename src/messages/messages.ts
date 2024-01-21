@@ -1,5 +1,7 @@
 import { Metric as WebVitalsMetric } from "web-vitals";
 import { getConfig } from "../config";
+import { CIConfig } from '../types';
+
 type BaseMessage = {
   id: string;
   dateTime: Date;
@@ -161,3 +163,11 @@ const emitChange = () => {
     listener();
   }
 };
+
+let ciConfig: CIConfig | null = null;
+
+export const getCIConfig = () => ciConfig;
+
+export const setCIConfig = (config: CIConfig) => {
+  ciConfig = config;
+}
