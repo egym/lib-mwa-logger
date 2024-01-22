@@ -1,39 +1,39 @@
-import { Metric as WebVitalsMetric } from "web-vitals";
-import { getConfig } from "../config";
+import { Metric as WebVitalsMetric } from 'web-vitals';
+import { getConfig } from '../config';
 import { CIConfig } from '../types';
 
 type BaseMessage = {
   id: string;
   dateTime: Date;
-  type: "http" | "portals" | "debug" | "webVitals" | "wsod";
+  type: 'http' | 'portals' | 'debug' | 'webVitals' | 'wsod';
   text: string;
   data?: any;
-};
+}
 
 export type DebugMessage = BaseMessage & {
-  type: "debug";
-};
+  type: 'debug';
+}
 
 export type HttpMessage = BaseMessage & {
-  type: "http";
+  type: 'http';
   method: string;
   requestId: string | number;
-  direction: "request" | "response";
-};
+  direction: 'request' | 'response';
+}
 
 export type PortalsMessage = BaseMessage & {
-  type: "portals";
-  direction: "request" | "response";
-};
+  type: 'portals';
+  direction: 'request' | 'response';
+}
 
 export type WebVitalsMessage = BaseMessage & {
-  type: "webVitals";
+  type: 'webVitals';
   data: WebVitalsMetric;
-};
+}
 
 export type WSODMessage = BaseMessage & {
-  type: "wsod";
-};
+  type: 'wsod';
+}
 
 export type Message =
   | DebugMessage
@@ -48,7 +48,7 @@ let messages: Message[] = [];
 let listeners: voidFunction[] = [];
 
 const appendAndEmitMessage = <T extends Message>(newMessage: T) => {
-  if (newMessage.type === "wsod" || getConfig().debugMode) {
+  if (newMessage.type === 'wsod' || getConfig().debugMode) {
     messages = [...messages, newMessage];
 
     console.debug(newMessage);
@@ -58,45 +58,45 @@ const appendAndEmitMessage = <T extends Message>(newMessage: T) => {
 };
 
 export const logHttpRequest = (
-  method: HttpMessage["method"],
-  url: HttpMessage["text"],
-  requestId: HttpMessage["requestId"],
-  payload?: HttpMessage["data"]
+  method: HttpMessage['method'],
+  url: HttpMessage['text'],
+  requestId: HttpMessage['requestId'],
+  payload?: HttpMessage['data']
 ) =>
   appendAndEmitMessage({
-    type: "http",
+    type: 'http',
     id: Math.random().toString(16).slice(2),
     dateTime: new Date(),
     method,
     text: url,
     requestId,
-    direction: "request",
+    direction: 'request',
     data: payload,
   });
 
 export const logHttpResponse = (
-  method: HttpMessage["method"],
-  url: HttpMessage["text"],
-  requestId: HttpMessage["requestId"],
-  response?: HttpMessage["data"]
+  method: HttpMessage['method'],
+  url: HttpMessage['text'],
+  requestId: HttpMessage['requestId'],
+  response?: HttpMessage['data']
 ) =>
   appendAndEmitMessage({
-    type: "http",
+    type: 'http',
     id: Math.random().toString(16).slice(2),
     dateTime: new Date(),
     method,
     text: url,
     requestId,
-    direction: "response",
+    direction: 'response',
     data: response,
   });
 
 export const logDebug = (
-  text: DebugMessage["text"],
-  data?: DebugMessage["data"]
+  text: DebugMessage['text'],
+  data?: DebugMessage['data']
 ) =>
   appendAndEmitMessage({
-    type: "debug",
+    type: 'debug',
     id: Math.random().toString(16).slice(2),
     dateTime: new Date(),
     text,
@@ -104,46 +104,46 @@ export const logDebug = (
   });
 
 export const logPortalsRequest = (
-  topic: PortalsMessage["text"],
-  data?: PortalsMessage["data"]
+  topic: PortalsMessage['text'],
+  data?: PortalsMessage['data']
 ) =>
   appendAndEmitMessage({
-    type: "portals",
+    type: 'portals',
     id: Math.random().toString(16).slice(2),
     dateTime: new Date(),
     text: topic,
     data,
-    direction: "request",
+    direction: 'request',
   });
 
 export const logPortalsResponse = (
-  topic: PortalsMessage["text"],
-  data?: PortalsMessage["data"]
+  topic: PortalsMessage['text'],
+  data?: PortalsMessage['data']
 ) =>
   appendAndEmitMessage({
-    type: "portals",
+    type: 'portals',
     id: Math.random().toString(16).slice(2),
     dateTime: new Date(),
     text: topic,
     data,
-    direction: "response",
+    direction: 'response',
   });
 
-export const logWebWitals = (metric: WebVitalsMessage["data"]) =>
+export const logWebWitals = (metric: WebVitalsMessage['data']) =>
   appendAndEmitMessage({
-    type: "webVitals",
+    type: 'webVitals',
     id: Math.random().toString(16).slice(2),
     dateTime: new Date(),
     text: metric.name,
     data: metric,
   });
 
-export const logWSOD = (data: WSODMessage["data"]) =>
+export const logWSOD = (data: WSODMessage['data']) =>
   appendAndEmitMessage({
-    type: "wsod",
+    type: 'wsod',
     id: Math.random().toString(16).slice(2),
     dateTime: new Date(),
-    text: "WSOD",
+    text: 'WSOD',
     data,
   });
 
