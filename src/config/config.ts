@@ -1,9 +1,9 @@
 export interface MwaLoggerConfig {
-  debugMode: boolean;
+  initialized: boolean;
 }
 
 let config: MwaLoggerConfig = {
-  debugMode: false,
+  initialized: false,
 };
 
 export function setConfig(newConfig: MwaLoggerConfig): void {

@@ -48,7 +48,7 @@ let messages: Message[] = [];
 let listeners: voidFunction[] = [];
 
 const appendAndEmitMessage = <T extends Message>(newMessage: T) => {
-  if (newMessage.type === 'wsod' || getConfig().debugMode) {
+  if (getConfig().initialized || newMessage.type === 'wsod') {
     messages = [...messages, newMessage];
 
     console.debug(newMessage);
