@@ -10,20 +10,26 @@ import WebVitalsLogs from './WebVitalsLogs';
 import WSOD from './WSOD';
 import { CIConfig } from '../types';
 import CiConfigDisplay from './CIConfigDisplay';
+import { setConfig } from '../config';
 
 type Props = {
+  enabled?: boolean;
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   wrapperStyle?: CSSProperties;
   buttonStyle?: CSSProperties;
   ciConfig?: CIConfig;
 };
 
-const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle, ciConfig }) => {
+const EgymMwaDevtools: FC<Props> = ({ enabled, position, wrapperStyle, buttonStyle, ciConfig }) => {
   const messages = useSyncExternalStore(subscribe, getSnapshot);
   const [open, setOpen] = useState(false);
   const [positionStyles, setPositionStyles] = useState<ReturnType<typeof getPosition> | null>(null);
 
+  const isEnabled = typeof enabled === 'boolean' ? enabled : true;
+
   useEffect(() => {
+    if (!isEnabled) return;
+
     // adding timeout to make sure css variable accessible in the MWA
     setTimeout(() => {
       const styles = getPosition(position);
@@ -34,6 +40,12 @@ const EgymMwaDevtools: FC<Props> = ({ position, wrapperStyle, buttonStyle, ciCon
   useEffect(() => {
     if (ciConfig) setCIConfig(ciConfig);
   }, [ciConfig]);
+
+  useEffect(() => {
+    if (!isEnabled) return;
+
+    setConfig({ initialized: true })
+  }, [])
 
   const contentWidth = useMemo(() => {
     if (!positionStyles) return undefined;

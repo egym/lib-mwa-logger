@@ -1,10 +1,11 @@
 import { Metric as WebVitalsMetric } from 'web-vitals';
+import { getConfig } from '../config';
 import { CIConfig } from '../types';
 
 type BaseMessage = {
   id: string;
   dateTime: Date;
-  type: 'http' | 'portals' | 'debug' | 'webVitals' | 'wsod',
+  type: 'http' | 'portals' | 'debug' | 'webVitals' | 'wsod';
   text: string;
   data?: any;
 }
@@ -14,27 +15,32 @@ export type DebugMessage = BaseMessage & {
 }
 
 export type HttpMessage = BaseMessage & {
-  type: 'http',
+  type: 'http';
   method: string;
   requestId: string | number;
   direction: 'request' | 'response';
 }
 
 export type PortalsMessage = BaseMessage & {
-  type: 'portals',
+  type: 'portals';
   direction: 'request' | 'response';
 }
 
 export type WebVitalsMessage = BaseMessage & {
-  type: 'webVitals',
-  data: WebVitalsMetric,
+  type: 'webVitals';
+  data: WebVitalsMetric;
 }
 
 export type WSODMessage = BaseMessage & {
-  type: 'wsod',
+  type: 'wsod';
 }
 
-export type Message = DebugMessage | HttpMessage | PortalsMessage | WebVitalsMessage | WSODMessage;
+export type Message =
+  | DebugMessage
+  | HttpMessage
+  | PortalsMessage
+  | WebVitalsMessage
+  | WSODMessage;
 
 type voidFunction = () => void;
 
@@ -42,96 +48,121 @@ let messages: Message[] = [];
 let listeners: voidFunction[] = [];
 
 const appendAndEmitMessage = <T extends Message>(newMessage: T) => {
-  messages = [
-    ...messages,
-    newMessage,
-  ];
+  if (getConfig().initialized || newMessage.type === 'wsod') {
+    messages = [...messages, newMessage];
 
-  console.debug(newMessage);
+    console.debug(newMessage);
 
-  emitChange();
-}
+    emitChange();
+  }
+};
 
-export const logHttpRequest = (method: HttpMessage['method'], url: HttpMessage['text'], requestId: HttpMessage['requestId'], payload?: HttpMessage['data']) => appendAndEmitMessage({
-  type: 'http',
-  id: Math.random().toString(16).slice(2),
-  dateTime: new Date(),
-  method,
-  text: url,
-  requestId,
-  direction: 'request',
-  data: payload
-});
+export const logHttpRequest = (
+  method: HttpMessage['method'],
+  url: HttpMessage['text'],
+  requestId: HttpMessage['requestId'],
+  payload?: HttpMessage['data']
+) =>
+  appendAndEmitMessage({
+    type: 'http',
+    id: Math.random().toString(16).slice(2),
+    dateTime: new Date(),
+    method,
+    text: url,
+    requestId,
+    direction: 'request',
+    data: payload,
+  });
 
-export const logHttpResponse = (method: HttpMessage['method'], url: HttpMessage['text'], requestId: HttpMessage['requestId'], response?: HttpMessage['data']) => appendAndEmitMessage({
-  type: 'http',
-  id: Math.random().toString(16).slice(2),
-  dateTime: new Date(),
-  method,
-  text: url,
-  requestId,
-  direction: 'response',
-  data: response
-});
+export const logHttpResponse = (
+  method: HttpMessage['method'],
+  url: HttpMessage['text'],
+  requestId: HttpMessage['requestId'],
+  response?: HttpMessage['data']
+) =>
+  appendAndEmitMessage({
+    type: 'http',
+    id: Math.random().toString(16).slice(2),
+    dateTime: new Date(),
+    method,
+    text: url,
+    requestId,
+    direction: 'response',
+    data: response,
+  });
 
-export const logDebug = (text: DebugMessage['text'], data?: DebugMessage['data']) => appendAndEmitMessage({
-  type: 'debug',
-  id: Math.random().toString(16).slice(2),
-  dateTime: new Date(),
-  text,
-  data
-})
+export const logDebug = (
+  text: DebugMessage['text'],
+  data?: DebugMessage['data']
+) =>
+  appendAndEmitMessage({
+    type: 'debug',
+    id: Math.random().toString(16).slice(2),
+    dateTime: new Date(),
+    text,
+    data,
+  });
 
-export const logPortalsRequest = (topic: PortalsMessage['text'], data?: PortalsMessage['data']) => appendAndEmitMessage({
-  type: 'portals',
-  id: Math.random().toString(16).slice(2),
-  dateTime: new Date(),
-  text: topic,
-  data,
-  direction: 'request'
-})
+export const logPortalsRequest = (
+  topic: PortalsMessage['text'],
+  data?: PortalsMessage['data']
+) =>
+  appendAndEmitMessage({
+    type: 'portals',
+    id: Math.random().toString(16).slice(2),
+    dateTime: new Date(),
+    text: topic,
+    data,
+    direction: 'request',
+  });
 
-export const logPortalsResponse = (topic: PortalsMessage['text'], data?: PortalsMessage['data']) => appendAndEmitMessage({
-  type: 'portals',
-  id: Math.random().toString(16).slice(2),
-  dateTime: new Date(),
-  text: topic,
-  data,
-  direction: 'response'
-})
+export const logPortalsResponse = (
+  topic: PortalsMessage['text'],
+  data?: PortalsMessage['data']
+) =>
+  appendAndEmitMessage({
+    type: 'portals',
+    id: Math.random().toString(16).slice(2),
+    dateTime: new Date(),
+    text: topic,
+    data,
+    direction: 'response',
+  });
 
-export const logWebWitals = (metric: WebVitalsMessage['data']) => appendAndEmitMessage({
-  type: 'webVitals',
-  id: Math.random().toString(16).slice(2),
-  dateTime: new Date(),
-  text: metric.name,
-  data: metric,
-});
+export const logWebWitals = (metric: WebVitalsMessage['data']) =>
+  appendAndEmitMessage({
+    type: 'webVitals',
+    id: Math.random().toString(16).slice(2),
+    dateTime: new Date(),
+    text: metric.name,
+    data: metric,
+  });
 
-export const logWSOD = (data: WSODMessage['data']) => appendAndEmitMessage({
-  type: 'wsod',
-  id: Math.random().toString(16).slice(2),
-  dateTime: new Date(),
-  text: 'WSOD',
-  data,
-})
+export const logWSOD = (data: WSODMessage['data']) =>
+  appendAndEmitMessage({
+    type: 'wsod',
+    id: Math.random().toString(16).slice(2),
+    dateTime: new Date(),
+    text: 'WSOD',
+    data,
+  });
 
 export const subscribe = (listener: voidFunction) => {
   listeners = [...listeners, listener];
   return () => {
-    listeners = listeners.filter(l => l !== listener);
+    listeners = listeners.filter((l) => l !== listener);
   };
-}
+};
 
 export const getSnapshot = () => {
   return messages;
-}
+};
 
 const emitChange = () => {
   for (let listener of listeners) {
     listener();
   }
-}
+};
 
 let ciConfig: CIConfig | null = null;
 
