@@ -38,8 +38,8 @@ const EgymMwaDevtools: FC<Props> = ({ enabled, position, wrapperStyle, buttonSty
   }, [position]);
 
   useEffect(() => {
-    if (ciConfig) setCIConfig(ciConfig);
-  }, [ciConfig]);
+    if (ciConfig && isEnabled) setCIConfig(ciConfig);
+  }, [ciConfig, isEnabled]);
 
   useEffect(() => {
     if (!isEnabled) return;
