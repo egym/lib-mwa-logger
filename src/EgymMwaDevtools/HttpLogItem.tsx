@@ -39,6 +39,7 @@ const HttpLogItem: FC<Props> = ({ index, messages }) => {
           marginBottom: '20px',
           maxHeight: open ? 'none' : '30px',
           overflow: !open ? 'hidden' : undefined,
+          boxSizing: 'border-box',
         }}
       >
         <LogItemHeader text={`${messages[0]?.method?.toUpperCase()} ${messages[0].text}`} color={color} open={open} setOpen={setOpen} />
