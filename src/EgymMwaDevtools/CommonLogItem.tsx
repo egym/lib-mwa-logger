@@ -25,6 +25,7 @@ const CommonLogItem: FC<Props> = ({ index , message}) => {
           marginBottom: '20px',
           maxHeight: open ? 'none' : '30px',
           overflow: !open ? 'hidden' : undefined,
+          boxSizing: 'border-box',
         }}
       >
         <LogItemHeader open={open} setOpen={setOpen} text={message.text} />
