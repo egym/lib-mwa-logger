@@ -4,10 +4,13 @@ const typescript = require('@rollup/plugin-typescript');
 const { default: dts } = require('rollup-plugin-dts');
 
 const packageJson = require('./package.json');
+const peerDependencies = Object.keys(packageJson.peerDependencies || {});
+const isExternal = (id) => peerDependencies.some((dependency) => id === dependency || id.startsWith(`${dependency}/`));
 
 module.exports = [
   {
     input: 'src/index.ts',
+    external: isExternal,
     output: [
       {
         file: packageJson.main,
@@ -28,6 +31,7 @@ module.exports = [
   },
   {
     input: 'dist/mwa-logger/esm/types/index.d.ts',
+    external: isExternal,
     output: [
       { file: 'dist/mwa-logger/index.d.ts', format: 'esm' }
     ],
