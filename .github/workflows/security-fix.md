@@ -7,8 +7,8 @@
 # agent, so NO fine-grained PAT is required (inference billed to the org via
 # copilot-requests: write).
 #
-# VERIFY WITH `gh aw compile`: (1) engine.model value; (2) the command trigger
-# key/name; (3) the push-to-pull-request-branch safe-output key.
+# Verified against gh-aw v0.83.4: top-level `model`, `on.slash_command`, and the
+# `push-to-pull-request-branch` safe output all compile.
 # KNOWN LIMITATION: default GITHUB_TOKEN pushes do not re-trigger CI — re-run the
 # PR checks manually (or push via a GitHub App token) to get a fresh green status.
 # =============================================================================
@@ -20,8 +20,9 @@ description: >-
 on:
   slash_command:
     name: security-fix
-    # Fires on issue/PR comments containing `/security-fix`; by default only
-    # users with write access can invoke it. Keep that default.
+    events: [pull_request_comment]
+    # Fires only on pull request comments containing `/security-fix`; by default
+    # only users with write access can invoke it. Keep that default.
 
 permissions:
   contents: read           # agent job stays read-only; the push happens in the safe-output job
@@ -33,11 +34,17 @@ permissions:
 engine:
   id: copilot
 
-model: gpt-5.6-sol         # VERIFY (see header). Fallbacks: claude-fable-5 / omit for auto.
+model: gpt-5.6-sol         # verified on gh-aw v0.83.4; wired through as COPILOT_MODEL
+
+
+tools:
+  github:
+    toolsets: [default, actions]   # `actions` is required: step 2 reads failing workflow runs and logs
 
 network:
   allowed:
-    - defaults             # allow package registries for lockfile regeneration; tighten if desired
+    - defaults
+    - node
 
 safe-outputs:
   push-to-pull-request-branch:
