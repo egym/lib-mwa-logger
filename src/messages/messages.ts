@@ -1,6 +1,21 @@
-import { Metric as WebVitalsMetric } from 'web-vitals';
 import { getConfig } from '../config';
 import { CIConfig } from '../types';
+
+type WebVitalsMetric = {
+  name: 'CLS' | 'FCP' | 'FID' | 'INP' | 'LCP' | 'TTFB';
+  value: number;
+  rating: 'good' | 'needs-improvement' | 'poor';
+  delta: number;
+  id: string;
+  entries: PerformanceEntry[];
+  navigationType:
+    | 'navigate'
+    | 'reload'
+    | 'back-forward'
+    | 'back-forward-cache'
+    | 'prerender'
+    | 'restore';
+};
 
 type BaseMessage = {
   id: string;
