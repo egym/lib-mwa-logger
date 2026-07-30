@@ -34,7 +34,7 @@ permissions:
 engine:
   id: copilot
 
-model: claude-sonnet-5?effort=high   # 'high' is the max; low/medium/high are the only valid values
+model: claude-sonnet-5     # must match AWF's supported set exactly; a ?effort= suffix fails its preflight
 
 
 tools:
