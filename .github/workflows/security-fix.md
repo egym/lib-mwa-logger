@@ -34,7 +34,7 @@ permissions:
 engine:
   id: copilot
 
-model: gpt-5.6-sol         # verified on gh-aw v0.83.4; wired through as COPILOT_MODEL
+model: claude-sonnet-5?effort=high   # 'high' is the max; low/medium/high are the only valid values
 
 
 tools:
