@@ -37,6 +37,10 @@ engine:
 model: claude-sonnet-5     # must match AWF's supported set exactly; a ?effort= suffix fails its preflight
 
 
+runtimes:
+  node:
+    version: "24.13.0"   # matches .nvmrc; gh-aw cannot read .nvmrc itself
+
 tools:
   github:
     toolsets: [default, actions]   # `actions` is required: step 2 reads failing workflow runs and logs
