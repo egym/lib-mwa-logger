@@ -203,3 +203,10 @@ reportWebVitals(logWebWitals);
 ```
 
 <img src ="https://user-images.githubusercontent.com/15348910/218205131-61bc64e2-7905-4ab0-978f-3709b963d4a7.png" width="200">
+
+# Publishing
+
+Publishing is triggered by creating a GitHub release. Both package publishing
+workflows install the locked dependencies with `npm ci` and run
+`npm run build` before publishing. Releases to npmjs use trusted publishing
+with provenance.
