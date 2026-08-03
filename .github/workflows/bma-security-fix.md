@@ -28,7 +28,7 @@ permissions:
   copilot-requests: write  # in-Actions engine inference, org-billed, no PAT
 
 imports:
-  - egym/egym-ai-toolkit/.github/workflows/shared/bma-security-fix.md@2109abcbeab716f0af61498ef75f934d3320cb78
+  - egym/egym-ai-toolkit/.github/workflows/shared/bma-security-fix.md@1a2bffb445b1688f812112ba9dbaf21b0fd98504
 
 # The shared prompt is a RUNTIME import, and gh-aw validates its expressions
 # against a safe list that excludes `github.event.issue.pull_request`, so the
