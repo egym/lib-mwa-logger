@@ -1,6 +1,9 @@
 version: 2
 updates:
   - package-ecosystem: github-actions 
+    ignore:
+      # gh-aw pins these in the compiled lock; a pin bump without a recompile breaks the workflow.
+      - dependency-name: "github/gh-aw-actions/*"
     directory: "/" 
     schedule:
       interval: "weekly"
