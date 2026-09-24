@@ -64,6 +64,12 @@ mcp-scripts:
       esac
     timeout: 600
 
+# gh-aw only auto-excludes step-level secrets, so the enterprise OTLP credential in
+# workflow-level env would otherwise reach the agent container.
+excluded-env:
+  - OTEL_EXPORTER_OTLP_HEADERS
+  - GH_AW_OTLP_ENDPOINTS
+
 network:
   allowed:
     - defaults
