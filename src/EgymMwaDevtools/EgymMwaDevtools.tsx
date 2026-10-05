@@ -10,6 +10,7 @@ import WebVitalsLogs from './WebVitalsLogs';
 import WSOD from './WSOD';
 import { CIConfig } from '../types';
 import CiConfigDisplay from './CIConfigDisplay';
+import HostEnvironmentDisplay from './HostEnvironmentDisplay';
 import { setConfig } from '../config';
 
 type Props = {
@@ -128,6 +129,8 @@ const EgymMwaDevtools: FC<Props> = ({ enabled, position, wrapperStyle, buttonSty
               {!messages.length && <div style={{ padding: '15px', textAlign: 'center', color: 'black' }}>All clear!</div>}
 
               <CiConfigDisplay config={ciConfig} />
+
+              <HostEnvironmentDisplay />
 
               <WSOD />
 
