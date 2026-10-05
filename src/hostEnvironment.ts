@@ -23,10 +23,10 @@ export type HostEnvironment = {
 
 const getDeviceOs = ({ userAgent, platform, maxTouchPoints }: Navigator): HostEnvironment['deviceOs'] => {
   if (/iPhone|iPad|iPod/.test(platform)) return 'ios';
-  if (/Android/.test(userAgent)) return 'android';
-  if (/iPhone|iPad|iPod/.test(userAgent)) return 'ios';
   // iPad web views report a desktop Mac; only touch support tells them apart
   if (platform === 'MacIntel' && maxTouchPoints > 1) return 'ios';
+  if (/Android/.test(userAgent)) return 'android';
+  if (/iPhone|iPad|iPod/.test(userAgent)) return 'ios';
 
   return 'other';
 };

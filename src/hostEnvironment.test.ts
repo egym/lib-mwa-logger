@@ -126,6 +126,15 @@ describe('getHostEnvironment', () => {
     assert.equal(environment.platformMatchesDevice, false);
   });
 
+  it('treats an iPad in desktop mode as iOS when the user agent claims Android', () => {
+    const environment = getHostEnvironment(
+      createWindow({ ...iPadInDesktopMode, userAgent: androidPhone.userAgent }, { Capacitor: createCapacitor('android') })
+    );
+
+    assert.equal(environment.deviceOs, 'ios');
+    assert.equal(environment.platformMatchesDevice, false);
+  });
+
   it('trusts navigator.platform when the user agent claims Android on an iPhone', () => {
     const environment = getHostEnvironment(
       createWindow({ ...iPhone, userAgent: androidPhone.userAgent }, { Capacitor: createCapacitor('ios') })
