@@ -204,6 +204,40 @@ reportWebVitals(logWebWitals);
 
 <img src ="https://user-images.githubusercontent.com/15348910/218205131-61bc64e2-7905-4ab0-978f-3709b963d4a7.png" width="200">
 
+# Host environment
+
+## getHostEnvironment
+
+Reads what the host app's web view gives Capacitor, so an MWA can check that the host app set up Capacitor correctly. For example, Capacitor reports "android" on an iPhone when the web view has a `window.androidBridge` object.
+
+```ts
+declare const getHostEnvironment: (win?: Window) => HostEnvironment;
+
+type HostEnvironment = {
+  capacitorPlatform?: string;
+  deviceOs: 'ios' | 'android' | 'other';
+  platformMatchesDevice: boolean;
+  hasAndroidBridge: boolean;
+  androidBridgeType?: string;
+  androidBridgeKeys: string[];
+  hasIosBridge: boolean;
+  customPlatformName?: string;
+  nativePlugins: string[];
+  userAgent: string;
+};
+```
+
+- `capacitorPlatform` is what `Capacitor.getPlatform()` returns.
+- `deviceOs` comes from `navigator.platform` and the user agent. `platformMatchesDevice` is false when `capacitorPlatform` and `deviceOs` disagree. For `other` (not a phone or tablet) it is always true.
+- `hasAndroidBridge`, `androidBridgeType` and `androidBridgeKeys` describe `window.androidBridge`. `hasIosBridge` tells whether `window.webkit.messageHandlers.bridge` exists. `customPlatformName` is `window.CapacitorCustomPlatform.name`.
+- `nativePlugins` lists the native plugins the host app registered (`Capacitor.PluginHeaders`).
+
+`<EgymMwaDevtools />` shows the same values in its **Environment** section. The section title turns red when `platformMatchesDevice` is false.
+
+# Tests
+
+`npm test` runs the unit tests with the Node.js built-in test runner. Use the Node.js version from `.nvmrc`.
+
 # Publishing
 
 Publishing is triggered by creating a GitHub release. Both package publishing

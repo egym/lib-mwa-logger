@@ -1,6 +1,6 @@
 {
   "name": "@egym/mwa-logger",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "",
   "author": "EGYM",
   "license": "ISC",
@@ -10,7 +10,8 @@
   },
   "homepage": "https://github.com/egym/lib-mwa-logger#readme",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "node --test --disable-warning=MODULE_TYPELESS_PACKAGE_JSON"
   },
   "peerDependencies": {
     "react": ">=18.0.0"
